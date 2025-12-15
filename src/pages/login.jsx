@@ -97,38 +97,52 @@ const handleLoginSuccess = async (userId) => {
     .auth-card h2 { color: #6A3EA1; font-size: 32px; margin-bottom: 10px; }
     .auth-card p { color: #777; font-size: 15px; margin-bottom: 30px; }
 
-    .auth-input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 20px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-      font-size: 15px;
-    }
+.auth-input {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 50px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box; /* 🔥 FIX */
+}
 
-    .auth-btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 25px;
-      border: none;
-      background: linear-gradient(135deg, #FFB7C5, #FF9FB0);
-      color: white;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-      margin-bottom: 10px;
-    }
 
-    .auth-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255, 183, 197, 0.4);
-    }
+.auth-input:focus {
+  border-color: #6A3EA1; /* focus highlight */
+  box-shadow: 0 0 10px rgba(106, 62, 161, 0.2);
+}
 
-    .auth-btn-google {
-      background: #ea5074;
-      color: white;
-    }
+.auth-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 50px; /* fully rounded button */
+  border: none;
+  background: linear-gradient(135deg, #FFB7C5, #FF9FB0);
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 10px;
+  box-shadow: 0 5px 15px rgba(255, 183, 197, 0.3);
+}
+
+.auth-btn-google {
+  background: #ea5074;
+  color: white;
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 183, 197, 0.4);
+}
+
+
+
+    
 
     .auth-switch {
       margin-top: 18px;
