@@ -13,35 +13,35 @@ export default function Chatbot() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
+ const sendMessage = async () => {
+  if (!input.trim() || loading) return;
 
-    setMessages(prev => [...prev, { sender: "user", text: input }]);
-    setInput("");
-    setLoading(true);
+  setMessages(prev => [...prev, { sender: "user", text: input }]);
+  setInput("");
+  setLoading(true);
 
-    try {
-      const res = await fetch("http://localhost:5050/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input })
-      });
+  try {
+    const res = await fetch("https://hearttalk1.onrender.com/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: input })
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      setMessages(prev => [
-        ...prev,
-        { sender: "bot", text: data.reply || "No reply 😶" }
-      ]);
-    } catch (error) {
-      setMessages(prev => [
-        ...prev,
-        { sender: "bot", text: "Connection error 😢" }
-      ]);
-    }
+    setMessages(prev => [
+      ...prev,
+      { sender: "bot", text: data.reply || "No reply 😶" }
+    ]);
+  } catch (error) {
+    setMessages(prev => [
+      ...prev,
+      { sender: "bot", text: "Connection error 😢" }
+    ]);
+  }
 
-    setLoading(false);
-  };
+  setLoading(false);
+};
 
   return (
     <div style={{
