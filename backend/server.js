@@ -1,12 +1,10 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import fetch from "node-fetch"; // if using Node 18+, can use global fetch
+import fetch from "node-fetch";
 
 dotenv.config();
 const app = express();
-
-app.use(express.json());
 
 app.use(
   cors({
@@ -19,6 +17,8 @@ app.use(
   })
 );
 
+app.use(express.json());
+
 app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
@@ -29,17 +29,16 @@ app.post("/chat", async (req, res) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ text: userMessage }],
+          contents: [{ parts: [{ text: userMessage }] }],
         }),
       }
     );
 
     const data = await response.json();
 
-    // Extract reply safely
     const reply =
-      data?.candidates?.[0]?.content?.[0]?.text ||
-      "I'm here for you 💙"; // default if API fails
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "I'm here for you 💙";
 
     res.json({ reply });
   } catch (error) {
@@ -49,4 +48,6 @@ app.post("/chat", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5050;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);
