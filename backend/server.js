@@ -6,7 +6,6 @@ import fetch from "node-fetch";
 dotenv.config();
 const app = express();
 
-// ✅ Correct CORS (this is enough)
 app.use(
   cors({
     origin: [
@@ -20,7 +19,6 @@ app.use(
 
 app.use(express.json());
 
-// Chat endpoint
 app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
@@ -49,7 +47,6 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// Start server
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () =>
   console.log(`Server running on port ${PORT}`)
