@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://hearttalk28.netlify.app",
+      "https://hearttalk2.netlify.app/",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
