@@ -632,8 +632,8 @@ const handleCardClick = (path) => {
               <a href="#">Contact</a>
               <a href="#">Support</a>
             </div>
-            <p className="footer-text">Made with <span>💗</span> for your wellbeing</p>
-            <p className="footer-text">© 2025 HeartTalk. Your safe space, always.</p>
+            <p className="footer-text">Made with <span>💗</span> for your wellbeing RM</p>
+            <p className="footer-text">© RM 2025 HeartTalk . Your safe space, always.</p>
           </div>
         </footer>
       </div>

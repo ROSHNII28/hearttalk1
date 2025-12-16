@@ -58,10 +58,10 @@ export default function Chatbot() {
         fontWeight: 600,
         fontSize: 22,
         color: "#6b21a8",
-        background: "#f2d7f5",
+        background: "#f8e8f4",
         boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
       }}>
-        💜 HeartTalk Chat
+        💗 HeartTalk Chat
       </div>
 
       {/* Chat Messages */}
@@ -77,7 +77,7 @@ export default function Chatbot() {
           <div key={i} style={{
             alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
             background: msg.sender === "user" ? "#e0c3fc" : "#f8d3f5",
-            color: "#4b0082",
+            color: "#ce5fafff",
             padding: "12px 18px",
             borderRadius: 25,
             maxWidth: "70%",
@@ -121,7 +121,7 @@ export default function Chatbot() {
           style={{
             padding: "12px 20px",
             borderRadius: 25,
-            background: "#a855f7",
+            background: "#d03d7cff",
             color: "#fff",
             border: "none",
             fontWeight: 600,
