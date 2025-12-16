@@ -35,7 +35,7 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here for you 💙";
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text ||
 
     res.json({ reply });
   } catch (error) {
