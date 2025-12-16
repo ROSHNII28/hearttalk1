@@ -8,7 +8,7 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Auto scroll to bottom
+  // Auto-scroll
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
@@ -16,7 +16,8 @@ export default function Chatbot() {
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
-    // Add user message
+    console.log("Sending message:", input);
+
     setMessages(prev => [...prev, { sender: "user", text: input }]);
     setInput("");
     setLoading(true);
@@ -29,15 +30,14 @@ export default function Chatbot() {
       });
 
       const data = await res.json();
-      console.log("Bot reply:", data);
+      console.log("Bot reply received:", data);
 
-      // Add bot reply
       setMessages(prev => [
         ...prev,
         { sender: "bot", text: data.reply || "No reply 😶" }
       ]);
-    } catch (error) {
-      console.error("Error fetching bot reply:", error);
+    } catch (err) {
+      console.error("Error fetching bot reply:", err);
       setMessages(prev => [
         ...prev,
         { sender: "bot", text: "Connection error 😢" }
@@ -48,40 +48,19 @@ export default function Chatbot() {
   };
 
   return (
-    <div style={{
-      height: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      background: "linear-gradient(135deg, #fce4f8, #fef6fb)",
-      fontFamily: "'Poppins', sans-serif",
-    }}>
+    <div style={{ height: "100vh", display: "flex", flexDirection: "column", background: "linear-gradient(135deg, #fce4f8, #fef6fb)", fontFamily: "'Poppins', sans-serif" }}>
       {/* Header */}
-      <div style={{
-        padding: "20px",
-        textAlign: "center",
-        fontWeight: 600,
-        fontSize: 22,
-        color: "#6b21a8",
-        background: "#f8e8f4",
-        boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
-      }}>
+      <div style={{ padding: 20, textAlign: "center", fontWeight: 600, fontSize: 22, color: "#6b21a8", background: "#f8e8f4", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
         💗 HeartTalk Chat
       </div>
 
-      {/* Chat Messages */}
-      <div style={{
-        flex: 1,
-        padding: 20,
-        overflowY: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 10,
-      }}>
+      {/* Messages */}
+      <div style={{ flex: 1, padding: 20, overflowY: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
         {messages.map((msg, i) => (
           <div key={i} style={{
             alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
             background: msg.sender === "user" ? "#e0c3fc" : "#f8d3f5",
-            color: "#6b21a8", // Dark purple for readability
+            color: "#6b21a8",
             padding: "12px 18px",
             borderRadius: 25,
             maxWidth: "70%",
@@ -91,47 +70,20 @@ export default function Chatbot() {
             {msg.text}
           </div>
         ))}
-        {loading && (
-          <div style={{ color: "#6b21a8", fontStyle: "italic" }}>💬 Bot is typing...</div>
-        )}
+        {loading && <div style={{ color: "#6b21a8", fontStyle: "italic" }}>💬 Bot is typing...</div>}
         <div ref={chatEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div style={{
-        display: "flex",
-        padding: 15,
-        gap: 10,
-        background: "#f2d7f5",
-        borderTop: "1px solid #e0c3fc",
-      }}>
+      {/* Input */}
+      <div style={{ display: "flex", padding: 15, gap: 10, background: "#f2d7f5", borderTop: "1px solid #e0c3fc" }}>
         <input
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === "Enter" && sendMessage()}
           placeholder="Type your message..."
-          style={{
-            flex: 1,
-            padding: "12px 15px",
-            borderRadius: 25,
-            border: "1px solid #e0c3fc",
-            outline: "none",
-            fontSize: 15,
-          }}
+          style={{ flex: 1, padding: "12px 15px", borderRadius: 25, border: "1px solid #e0c3fc", outline: "none", fontSize: 15 }}
         />
-        <button
-          onClick={sendMessage}
-          disabled={loading}
-          style={{
-            padding: "12px 20px",
-            borderRadius: 25,
-            background: "#d03d7cff",
-            color: "#fff",
-            border: "none",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={sendMessage} disabled={loading} style={{ padding: "12px 20px", borderRadius: 25, background: "#d03d7cff", color: "#fff", border: "none", fontWeight: 600, cursor: "pointer" }}>
           {loading ? "..." : "Send"}
         </button>
       </div>
