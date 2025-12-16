@@ -1,6 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import fetch from "node-fetch"; // if using Node 18+, can use global fetch
 
 dotenv.config();
 const app = express();
@@ -11,7 +12,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://hearttalk2.netlify.app", // removed trailing slash
+      "https://hearttalk2.netlify.app",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
@@ -28,14 +29,17 @@ app.post("/chat", async (req, res) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: userMessage }] }],
+          contents: [{ text: userMessage }],
         }),
       }
     );
 
     const data = await response.json();
 
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+    // Extract reply safely
+    const reply =
+      data?.candidates?.[0]?.content?.[0]?.text ||
+      "I'm here for you 💙"; // default if API fails
 
     res.json({ reply });
   } catch (error) {
