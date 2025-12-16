@@ -23,7 +23,7 @@ app.post("/chat", async (req, res) => {
     if (!userMessage) return res.json({ reply: "Please say something!" });
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEN_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEN_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
