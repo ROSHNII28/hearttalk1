@@ -1,23 +1,22 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import fetch from "node-fetch";
 
 dotenv.config();
 const app = express();
+
+app.use(express.json());
 
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://hearttalk2.netlify.app/",
+      "https://hearttalk2.netlify.app", // removed trailing slash
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
 );
-
-app.use(express.json());
 
 app.post("/chat", async (req, res) => {
   try {
@@ -36,9 +35,7 @@ app.post("/chat", async (req, res) => {
 
     const data = await response.json();
 
-    const reply =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "I'm here for you 💙";
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here for you 💙";
 
     res.json({ reply });
   } catch (error) {
@@ -48,6 +45,4 @@ app.post("/chat", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5050;
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
