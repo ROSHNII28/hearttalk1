@@ -8,40 +8,44 @@ export default function Chatbot() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Auto scroll
+  // Auto scroll to bottom
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
- const sendMessage = async () => {
-  if (!input.trim() || loading) return;
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
 
-  setMessages(prev => [...prev, { sender: "user", text: input }]);
-  setInput("");
-  setLoading(true);
+    // Add user message
+    setMessages(prev => [...prev, { sender: "user", text: input }]);
+    setInput("");
+    setLoading(true);
 
-  try {
-    const res = await fetch("https://hearttalk1-1.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input })
-    });
+    try {
+      const res = await fetch("https://hearttalk1-1.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
+      console.log("Bot reply:", data);
 
-    setMessages(prev => [
-      ...prev,
-      { sender: "bot", text: data.reply || "No reply 😶" }
-    ]);
-  } catch (error) {
-    setMessages(prev => [
-      ...prev,
-      { sender: "bot", text: "Connection error 😢" }
-    ]);
-  }
+      // Add bot reply
+      setMessages(prev => [
+        ...prev,
+        { sender: "bot", text: data.reply || "No reply 😶" }
+      ]);
+    } catch (error) {
+      console.error("Error fetching bot reply:", error);
+      setMessages(prev => [
+        ...prev,
+        { sender: "bot", text: "Connection error 😢" }
+      ]);
+    }
 
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   return (
     <div style={{
@@ -77,7 +81,7 @@ export default function Chatbot() {
           <div key={i} style={{
             alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
             background: msg.sender === "user" ? "#e0c3fc" : "#f8d3f5",
-            color: "#ce5fafff",
+            color: "#6b21a8", // Dark purple for readability
             padding: "12px 18px",
             borderRadius: 25,
             maxWidth: "70%",
@@ -88,7 +92,7 @@ export default function Chatbot() {
           </div>
         ))}
         {loading && (
-          <div style={{ color: "#6b21a8" }}>💬 Bot is typing...</div>
+          <div style={{ color: "#6b21a8", fontStyle: "italic" }}>💬 Bot is typing...</div>
         )}
         <div ref={chatEndRef} />
       </div>
